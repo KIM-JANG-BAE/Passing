@@ -1,0 +1,58 @@
+import openpyxl
+from openpyxl import Workbook
+from openpyxl import load_workbook
+
+name_value_o = ["이름", "나이", "학번", "학과", "주소"]
+
+# 기업 파일 컬럼명을 받기 위한 변수 설정 및 값 넣기
+
+def test(list_test):
+    wb = load_workbook(filename="test.xlsx") # 기업의 파일명 넣기
+    sheet = wb.active 
+    name_value = []  # 기업 엑셀파일의 컬럼명
+    title = sheet[1]
+
+    for i in title:
+        name_value.append(i)
+
+    a_list = ["성명", "연세", "학번", "학과", "거주지"]
+    a_col = []
+
+    
+    for i in range(len(a_list)):   
+        for _ in range(len(name_value)):
+            if a_list[i] == name_value[_].value:
+                a_col.append(name_value[_].column)
+
+    alpha = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+    alpha_list = []
+
+
+    wb_new = load_workbook(filename="Student.xlsx")
+    sheet_new = wb_new.active
+
+    for _ in a_col:
+        alpha_list.append(alpha[int(_) - 1])
+
+
+    column_new = 1
+
+    for _ in range(len(list_test)):
+        column_value = []
+        for cell in sheet[alpha_list[_]]:
+            if cell.row == 1:
+                cell. value = list_test[_]
+            column_value.append(cell.value)
+
+        for i in range(len(column_value)):
+            row_new = 1 + i
+            cell = sheet_new.cell(row = row_new, column = column_new)
+            cell.value = column_value[i]
+        column_new = column_new + 1
+    
+
+    wb_new.save("example.xlsx")
+    print("Finish")
+
+
+test(name_value_o)
